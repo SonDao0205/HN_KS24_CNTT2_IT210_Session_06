@@ -22,9 +22,10 @@ public class CourseController {
 
     // Danh sách và filter
     @GetMapping("/list")
-    public String listCourses(@RequestParam(required = false) String level,
-                              @RequestParam(required = false) Double maxFee,
-                              Model model) {
+    public String listCourses(
+            @RequestParam(required = false) String level,
+            @RequestParam(required = false) Double maxFee,
+            Model model) {
 
         List<Course> courses = courseService.searchCourses(level, maxFee);
 
@@ -34,6 +35,7 @@ public class CourseController {
 
         return "course/list";
     }
+
 
     // Chi tiết course
     @GetMapping("/detail/{code}")
