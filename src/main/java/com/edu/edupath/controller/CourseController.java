@@ -27,17 +27,15 @@ public class CourseController {
             @RequestParam(required = false) Double maxFee,
             Model model) {
 
-        List<Course> courses;
-
-        if ((level == null || level.isEmpty()) && maxFee == null) {
-            courses = courseService.findAll();
-        } else {
-            courses = courseService.searchCourses(level, maxFee);
-        }
+        List<Course> courses = courseService.searchCourses(level, maxFee);
 
         model.addAttribute("courses", courses);
+        model.addAttribute("level", level);
+        model.addAttribute("maxFee", maxFee);
+
         return "course/list";
     }
+
 
     // Chi tiết course
     @GetMapping("/detail/{code}")
