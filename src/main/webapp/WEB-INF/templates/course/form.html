@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <!doctype html>
-<html lang="vi" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/main-layout}">
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+layout:decorate="~{main-layout}">
 <head>
     <title>Title</title>
     <!-- Required meta tags -->
@@ -19,42 +19,35 @@
     th:object: Xác định đối tượng mà Form này đang đại diện
     th:field: Tự động tạo ID, Name và điền giá trị cho ô nhập.
 -->
-<div layout:fragment="content">
-    <div class="container py-5">
-        <div class="card shadow mx-auto" style="max-width: 500px;">
-            <div class="card-header bg-primary text-white text-center">
-                <h4 class="mb-0">CẬP NHẬT KHÓA HỌC</h4>
-            </div>
+<div layout:fragment="content" class="container mt-4">
+    <div class="card shadow-lg mx-auto" style="max-width: 500px; border-radius: 15px;">
+        <div class="card-header bg-primary text-white text-center py-3">
+            <h4 class="mb-0"><i class="bi bi-pencil-square"></i> CẬP NHẬT KHÓA HỌC</h4>
+        </div>
+        <div class="card-body p-4">
+            <form th:action="@{/course/update}" method="post">
+                <input type="hidden" name="code" th:value="${course.courseCode}" />
 
-            <div class="card-body">
-                <form th:action="@{/course/update}" method="post">
+                <div class="form-group mb-3">
+                    <label class="fw-bold text-secondary">Tên khóa học:</label>
+                    <input type="text" class="form-control bg-light" th:value="${course.courseName}" readonly />
+                </div>
 
-                    <input type="hidden" name="code" th:value="${course.courseCode}" />
+                <div class="form-group mb-3">
+                    <label class="fw-bold text-secondary">Học phí (VNĐ):</label>
+                    <input type="number" class="form-control" name="fee" th:value="${course.fee}" required />
+                </div>
 
-                    <div class="form-group mb-3">
-                        <label class="fw-bold">Tên khóa học:</label>
-                        <input type="text" class="form-control bg-light"
-                               th:value="${course.courseName}" readonly />
-                    </div>
+                <div class="form-group mb-4">
+                    <label class="fw-bold text-secondary">Ngày khai giảng:</label>
+                    <input type="date" class="form-control" name="startDate" th:value="${course.startDate}" required />
+                </div>
 
-                    <div class="form-group mb-3">
-                        <label class="fw-bold">Học phí (VNĐ):</label>
-                        <input type="number" class="form-control" name="fee"
-                               th:value="${course.fee}" required step="1000" />
-                    </div>
-
-                    <div class="form-group mb-3">
-                        <label class="fw-bold">Ngày khai giảng:</label>
-                        <input type="date" class="form-control" name="startDate"
-                               th:value="${course.startDate}" required />
-                    </div>
-
-                    <div class="text-center mt-4">
-                        <button type="submit" class="btn btn-success px-4">Lưu thay đổi</button>
-                        <a th:href="@{/course/list}" class="btn btn-secondary px-4 ms-2">Hủy bỏ</a>
-                    </div>
-                </form>
-            </div>
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-success px-5 shadow-sm">Lưu thay đổi</button>
+                    <a th:href="@{/course/list}" class="btn btn-outline-secondary px-4 shadow-sm ml-2">Hủy bỏ</a>
+                </div>
+            </form>
         </div>
     </div>
 </div>
