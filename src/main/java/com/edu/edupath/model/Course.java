@@ -13,11 +13,12 @@ public class Course {
     private LocalDate startDate; // ngày khai giảng
     private int studentCount; // Số học viên hiện tại của khóa
     private int maxStudents; // Sĩ số tối đa
+    private boolean isDelete; // dùng để xóa mềm ( lưu trữ khóa học )
 
     public Course() {
     }
 
-    public Course(String courseCode, String courseName, String description, String instructor, String duration, double fee, Level level, LocalDate startDate, int studentCount, int maxStudents) {
+    public Course(String courseCode, String courseName, String description, String instructor, String duration, double fee, Level level, LocalDate startDate, int studentCount, int maxStudents, boolean isDelete) {
         this.courseCode = courseCode;
         this.courseName = courseName;
         this.description = description;
@@ -28,6 +29,7 @@ public class Course {
         this.startDate = startDate;
         this.studentCount = studentCount;
         this.maxStudents = maxStudents;
+        this.isDelete = isDelete;
     }
 
     public String getCourseCode() {
@@ -108,6 +110,14 @@ public class Course {
 
     public void setMaxStudents(int maxStudents) {
         this.maxStudents = maxStudents;
+    }
+
+    public boolean isDelete() {
+        return isDelete;
+    }
+
+    public void setDelete(boolean delete) {
+        isDelete = delete;
     }
 
     // method này trả về có khóa học đã full chưa
