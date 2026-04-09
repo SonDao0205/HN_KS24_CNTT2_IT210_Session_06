@@ -20,6 +20,11 @@ public class CourseController {
     @Autowired
     private CourseService courseService;
 
+    @GetMapping("/")
+    public String homeRedirect() {
+        return "redirect:/course/list";
+    }
+
     // Danh sách và filter
     @GetMapping("/list")
     public String listCourses(
@@ -39,7 +44,7 @@ public class CourseController {
 
     // Chi tiết course
     @GetMapping("/detail/{code}")
-    public String detailCourse(@PathVariable String code, Model model) {
+    public String detailCourse(@PathVariable("code") String code, Model model) {
         Optional<Course> course = courseService.findByCode(code);
         if(course.isEmpty()) {
             return "redirect:/course/list";
@@ -64,9 +69,9 @@ public class CourseController {
     // Cập nhật
     @PostMapping("/update")
     public String updateCourse(
-            @RequestParam(value = "code") String code,
-            @RequestParam(value = "fee") double fee,
-            @RequestParam(value = "startDate") String startDate,
+            @RequestParam(value = "code", required = false) String code,
+            @RequestParam(value = "fee", required = false) double fee,
+            @RequestParam(value = "startDate", required = false) String startDate,
             RedirectAttributes redirect) {
 
         LocalDate date = LocalDate.parse(startDate);
@@ -85,7 +90,7 @@ public class CourseController {
     // Xóa
     @PostMapping("/delete/{code}")
     public String deleteCourse(
-            @PathVariable String code,
+            @PathVariable("code") String code,
             RedirectAttributes redirect) {
 
         String result = courseService.deleteById(code);
