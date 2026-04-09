@@ -20,6 +20,11 @@ public class CourseController {
     @Autowired
     private CourseService courseService;
 
+    @GetMapping("/")
+    public String homeRedirect() {
+        return "redirect:/course/list";
+    }
+
     // Danh sách và filter
     @GetMapping("/list")
     public String listCourses(
@@ -33,7 +38,7 @@ public class CourseController {
         model.addAttribute("level", level);
         model.addAttribute("maxFee", maxFee);
 
-        return "list";
+        return "course/list";
     }
 
 
@@ -45,7 +50,7 @@ public class CourseController {
             return "redirect:/course/list";
         }
         model.addAttribute("course", course.get());
-        return "detail";
+        return "course/detail";
     }
 
     // Form edit course
