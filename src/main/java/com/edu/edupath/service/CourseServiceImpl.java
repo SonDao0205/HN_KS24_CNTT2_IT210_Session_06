@@ -5,6 +5,7 @@ import com.edu.edupath.repository.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -77,13 +78,46 @@ public class CourseServiceImpl implements CourseService{
                     return "Không thể xóa khi còn học viên";
                 }
 
-                // xóa mềm
-                course.setDelete(true);
 
-                return "Xóa thành công";// bao thanh cong
+               if (!course.isDelete()){
+                   // xóa mềm
+                   course.setDelete(true);
+
+                   return "Xóa thành công";// bao thanh cong
+               }else {
+                   return "Khóa học này đã xóa";
+               }
             }
         }
 
         return "Không tìm thấy khóa học nào với ID đó";
+    }
+
+    @Override
+    public String updateById(String id, double price, LocalDate date) {
+
+        List<Course> allCourses = courseRepository.findAll();
+
+        if (allCourses.isEmpty()) {
+            return "Danh sách rỗng";
+        }
+
+        if (price <= 0) {
+            return "Giá không được nhỏ hơn bằng 0";
+        }
+
+        if (date.isBefore(LocalDate.now())) {
+            return "Ngày khai giảng mới không được là quá khứ!";
+        }
+
+        for (Course course : allCourses) {
+            if (course.getCourseCode().equals(id) &&  !course.isDelete()) {
+                course.setFee(price);
+                course.setStartDate(date);
+
+                return "Cập nhật thành công";
+            }
+        }
+        return "Không tìm thấy khóa học cần cập nhật";
     }
 }
