@@ -1,10 +1,154 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{main-layout}">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title th:text="${course.courseName} + ' - Chi tiết khóa học'">Chi tiết khóa học</title>
+    <style>
+        /* CSS tuỳ chỉnh thêm cho trang chi tiết */
+        .hero-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 15px;
+            border-left: 5px solid #007bff;
+        }
+        .teacher-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #007bff;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
+
+<div layout:fragment="content">
+
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb bg-white shadow-sm border" style="border-radius: 10px;">
+            <li class="breadcrumb-item"><a th:href="@{/course/list}" class="text-decoration-none"><i class="bi bi-house-door-fill"></i> Trang chủ</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/course/list}" class="text-decoration-none">Khóa học</a></li>
+            <li class="breadcrumb-item active font-weight-bold" aria-current="page" th:text="${course.courseCode}">Mã KH</li>
+        </ol>
+    </nav>
+
+    <div class="hero-section p-4 p-md-5 mb-4 shadow-sm">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <span class="badge badge-primary px-3 py-2 mb-3" style="font-size: 0.9rem;" th:text="${course.level}">INTERMEDIATE</span>
+                <span class="badge badge-secondary px-3 py-2 mb-3 ml-2" style="font-size: 0.9rem;">
+                    <i class="bi bi-tag-fill mr-1"></i>Mã: <span th:text="${course.courseCode}"></span>
+                </span>
+
+                <h1 class="display-4 font-weight-bold text-dark mb-3" th:text="${course.courseName}">Tên khóa học</h1>
+                <p class="lead text-secondary mb-0" th:text="${course.description}">
+                </p>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8 mb-4">
+            <div class="card shadow-sm border-0 mb-4" style="border-radius: 15px;">
+                <div class="card-body p-4 p-md-5">
+                    <h4 class="font-weight-bold border-bottom pb-3 mb-4"><i class="bi bi-journal-check text-primary mr-2"></i>Nội dung & Lộ trình</h4>
+                    <div class="course-description" style="line-height: 1.8; font-size: 1.1rem; color: #495057;">
+                        <p>Khóa học <strong><span th:text="${course.courseName}"></span></strong> được thiết kế chuẩn đầu ra, giúp bạn nắm vững kiến thức từ cơ bản đến nâng cao.</p>
+
+                        <div class="row mt-4">
+                            <div class="col-md-6 mb-3">
+                                <i class="bi bi-check-circle-fill text-success mr-2"></i> Giáo trình chuẩn quốc tế.
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <i class="bi bi-check-circle-fill text-success mr-2"></i> Thực hành liên tục trên lớp.
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <i class="bi bi-check-circle-fill text-success mr-2"></i> Hỗ trợ giải đáp 24/7.
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <i class="bi bi-check-circle-fill text-success mr-2"></i> Cam kết chuẩn đầu ra.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card shadow-sm border-0" style="border-radius: 15px;">
+                <div class="card-body p-4">
+                    <h5 class="font-weight-bold mb-3">Giảng viên phụ trách</h5>
+                    <div class="d-flex align-items-center">
+                        <div class="teacher-avatar shadow-sm mr-3">
+                            <i class="bi bi-person"></i>
+                        </div>
+                        <div>
+                            <h5 class="font-weight-bold mb-1" th:text="${course.instructor}">Mr. A</h5>
+                            <p class="text-muted mb-0 small"><i class="bi bi-star-fill text-warning"></i> Chuyên gia giảng dạy tại EDU-PATH</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 mb-4">
+            <div class="card shadow-sm border-primary sticky-top" style="top: 80px; border-radius: 15px; border-width: 2px;">
+                <div class="card-body p-4">
+                    <div class="text-center border-bottom pb-4 mb-4">
+                        <span class="d-block text-muted mb-2 text-uppercase font-weight-bold small">Học phí trọn khóa</span>
+                        <h2 class="font-weight-bold text-danger mb-0"
+                            th:text="${#numbers.formatDecimal(course.fee, 0, 'COMMA', 0, 'POINT')} + ' đ'">
+                            5.000.000 đ
+                        </h2>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between mb-1 small font-weight-bold text-secondary">
+                            <span>Sĩ số lớp học:</span>
+                            <span><span th:text="${course.studentCount}">0</span> / <span th:text="${course.maxStudents}">20</span></span>
+                        </div>
+                        <div class="progress" style="height: 10px; border-radius: 5px;">
+                            <div th:classappend="${course.isFull} ? 'bg-danger' : 'bg-success'"
+                                 class="progress-bar progress-bar-striped progress-bar-animated"
+                                 role="progressbar"
+                                 th:style="'width: ' + (${course.studentCount} * 100 / ${course.maxStudents}) + '%'">
+                            </div>
+                        </div>
+                        <small class="text-danger mt-1 d-block" th:if="${course.isFull}"><i class="bi bi-exclamation-triangle-fill"></i> Lớp đã kín chỗ!</small>
+                    </div>
+
+                    <ul class="list-group list-group-flush text-left mb-4">
+                        <li class="list-group-item px-0 bg-transparent py-3">
+                            <i class="bi bi-clock-history text-primary mr-2"></i> Thời lượng:
+                            <strong class="float-right" th:text="${course.duration}">3 tháng</strong>
+                        </li>
+                        <li class="list-group-item px-0 bg-transparent py-3">
+                            <i class="bi bi-calendar-event text-primary mr-2"></i> Khai giảng:
+                            <strong class="float-right" th:text="${course.startDate}">01/05/2026</strong>
+                        </li>
+                    </ul>
+
+                    <div class="mt-2">
+                        <button th:if="${!course.isFull}" class="btn btn-primary btn-lg btn-block font-weight-bold shadow-sm" style="border-radius: 10px;">
+                            <i class="bi bi-cart-plus mr-1"></i> ĐĂNG KÝ HỌC
+                        </button>
+
+                        <button th:if="${course.isFull}" class="btn btn-secondary btn-lg btn-block font-weight-bold" style="border-radius: 10px;" disabled>
+                            <i class="bi bi-x-circle mr-1"></i> HẾT CHỖ
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
 
 </body>
 </html>
