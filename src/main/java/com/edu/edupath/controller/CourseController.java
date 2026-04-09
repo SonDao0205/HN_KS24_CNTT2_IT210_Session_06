@@ -23,8 +23,8 @@ public class CourseController {
     // Danh sách và filter
     @GetMapping("/list")
     public String listCourses(
-            @RequestParam(required = false) String level,
-            @RequestParam(required = false) Double maxFee,
+            @RequestParam(value = "level", required = false) String level,
+            @RequestParam(value = "maxFee", required = false) Double maxFee,
             Model model) {
 
         List<Course> courses = courseService.searchCourses(level, maxFee);
@@ -64,9 +64,9 @@ public class CourseController {
     // Cập nhật
     @PostMapping("/update")
     public String updateCourse(
-            @RequestParam String code,
-            @RequestParam double fee,
-            @RequestParam String startDate,
+            @RequestParam(value = "code") String code,
+            @RequestParam(value = "fee") double fee,
+            @RequestParam(value = "startDate") String startDate,
             RedirectAttributes redirect) {
 
         LocalDate date = LocalDate.parse(startDate);
