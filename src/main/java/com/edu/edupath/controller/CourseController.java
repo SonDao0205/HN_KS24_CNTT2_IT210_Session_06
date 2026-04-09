@@ -20,11 +20,6 @@ public class CourseController {
     @Autowired
     private CourseService courseService;
 
-    @GetMapping("/")
-    public String homeRedirect() {
-        return "redirect:/course/list";
-    }
-
     // Danh sách và filter
     @GetMapping("/list")
     public String listCourses(
