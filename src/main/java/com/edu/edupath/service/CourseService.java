@@ -1,7 +1,13 @@
 package com.edu.edupath.service;
 
-import org.springframework.stereotype.Service;
+import com.edu.edupath.model.Course;
 
-@Service
-public class CourseService {
+import java.util.List;
+import java.util.Optional;
+
+public interface CourseService {
+    List<Course> findAll();
+    List<Course> searchCourses(String level, Double maxPrice);
+    Optional<Course> findByCode(String code);// trả về một đối tượng hoặc trả về rỗng
+    String deleteById(String id); // Trả về thông báo không tìm thấy hoặc thành công
 }
