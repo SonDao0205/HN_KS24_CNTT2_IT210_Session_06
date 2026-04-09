@@ -22,16 +22,20 @@ public class CourseController {
 
     // Danh sách và filter
     @GetMapping("/list")
-    public String listCourses(@RequestParam(required = false) String level,
-                              @RequestParam(required = false) Double maxFee,
-                              Model model) {
+    public String listCourses(
+            @RequestParam(required = false) String level,
+            @RequestParam(required = false) Double maxFee,
+            Model model) {
 
-        List<Course> courses = courseService.searchCourses(level, maxFee);
+        List<Course> courses;
+
+        if ((level == null || level.isEmpty()) && maxFee == null) {
+            courses = courseService.findAll();
+        } else {
+            courses = courseService.searchCourses(level, maxFee);
+        }
 
         model.addAttribute("courses", courses);
-        model.addAttribute("level", level);
-        model.addAttribute("maxFee", maxFee);
-
         return "course/list";
     }
 
