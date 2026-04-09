@@ -77,8 +77,9 @@ public class CourseServiceImpl implements CourseService{
                     return "Không thể xóa khi còn học viên";
                 }
 
+
                 // xóa mềm
-                course.setDelete(true);
+                course.setDelete(false);
 
                 return "Xóa thành công";// bao thanh cong
             }
