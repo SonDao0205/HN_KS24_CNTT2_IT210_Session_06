@@ -9,7 +9,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/course")
@@ -20,10 +22,11 @@ public class CourseController {
 
     // Danh sách và filter
     @GetMapping("/list")
-    public String listCourses(@RequestParam(defaultValue = "") String level,
-                              @RequestParam(defaultValue = "0") double maxFee, Model model) {
+    public String listCourses(@RequestParam(required = false) String level,
+                              @RequestParam(required = false) Double maxFee,
+                              Model model) {
 
-        List<Course> courses = courseService.filterCourse(level, maxFee);
+        List<Course> courses = courseService.searchCourses(level, maxFee);
 
         model.addAttribute("courses", courses);
         model.addAttribute("level", level);
@@ -34,53 +37,61 @@ public class CourseController {
 
     // Chi tiết course
     @GetMapping("/detail/{code}")
-    public String detailCourse(@PathVariable("code") String code, Model model) {
-        Course course = courseService.getByCode(code);
-        if(course == null) {
+    public String detailCourse(@PathVariable String code, Model model) {
+        Optional<Course> course = courseService.findByCode(code);
+        if(course.isEmpty()) {
             return "redirect:/course/list";
         }
-        model.addAttribute("course", course);
+        model.addAttribute("course", course.get());
         return "course/detail";
     }
 
     // Form edit course
     @GetMapping("/edit/{code}")
     public String showEditForm(@PathVariable("code") String code, Model model){
-        Course course = courseService.getByCode(code);
+        Optional<Course> course = courseService.findByCode(code);
 
-        if (course == null) {
+        if (course.isEmpty()) {
             return "redirect:/course/list";
         }
 
-        model.addAttribute("course", course);
+        model.addAttribute("course", course.get());
         return "course/form";
     }
 
     // Cập nhật
     @PostMapping("/update")
     public String updateCourse(
-            @ModelAttribute Course course,
+            @RequestParam String code,
+            @RequestParam double fee,
+            @RequestParam String startDate,
             RedirectAttributes redirect) {
 
-        courseService.updateCourse(course);
+        LocalDate date = LocalDate.parse(startDate);
 
-        redirect.addFlashAttribute("message", "Cập nhật thành công");
+        String result = courseService.updateById(code, fee, date);
+
+        if (result.contains("thành công")) {
+            redirect.addFlashAttribute("message", result);
+        } else {
+            redirect.addFlashAttribute("error", result);
+        }
+
         return "redirect:/course/list";
     }
 
     // Xóa
-    @PostMapping("/delete/{id}")
+    @PostMapping("/delete/{code}")
     public String deleteCourse(
-            @PathVariable Long id,
+            @PathVariable String code,
             RedirectAttributes redirect) {
 
-        boolean result = courseService.deleteCourse(id);
+        String result = courseService.deleteById(code);
 
-        if (!result) {
-            redirect.addFlashAttribute("error",
-                    "Không thể hủy khóa học đã có học viên đăng ký");
+        if (result.contains("thành công")) {
+            redirect.addFlashAttribute("message", result);
         } else {
-            redirect.addFlashAttribute("message", "Hủy khóa học thành công");
+            redirect.addFlashAttribute("error", result);
         }
 
         return "redirect:/course/list";
