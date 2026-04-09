@@ -7,7 +7,7 @@ public class Course {
     private String courseName; // tên khóa học
     private String description; // mô tả cho khóa học
     private String instructor; // giảng viên
-    private int duration; // thời lượng
+    private String duration; // thời lượng ( ví dụ 12 tuần )
     private double fee; // học phí
     private Level level; // trình độ ( bên enum Level )
     private LocalDate startDate; // ngày khai giảng
@@ -17,7 +17,7 @@ public class Course {
     public Course() {
     }
 
-    public Course(String courseCode, String courseName, String description, String instructor, int duration, double fee, Level level, LocalDate startDate, int studentCount, int maxStudents) {
+    public Course(String courseCode, String courseName, String description, String instructor, String duration, double fee, Level level, LocalDate startDate, int studentCount, int maxStudents) {
         this.courseCode = courseCode;
         this.courseName = courseName;
         this.description = description;
@@ -62,11 +62,11 @@ public class Course {
         this.instructor = instructor;
     }
 
-    public int getDuration() {
+    public String getDuration() {
         return duration;
     }
 
-    public void setDuration(int duration) {
+    public void setDuration(String duration) {
         this.duration = duration;
     }
 
