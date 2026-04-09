@@ -1,24 +1,23 @@
 package com.edu.edupath.model;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 public class Course {
-    private String courseCode;
-    private String courseName;
-    private String description;
-    private String instructor;
-    private int duration;
-    private double fee;
-    private Level level;
-    private Date startDate;
-    private int studentCount;
-    private int maxStudents;
-    private boolean isFull;
+    private String courseCode; // mã khóa học
+    private String courseName; // tên khóa học
+    private String description; // mô tả cho khóa học
+    private String instructor; // giảng viên
+    private int duration; // thời lượng
+    private double fee; // học phí
+    private Level level; // trình độ ( bên enum Level )
+    private LocalDate startDate; // ngày khai giảng
+    private int studentCount; // Số học viên hiện tại của khóa
+    private int maxStudents; // Sĩ số tối đa
 
     public Course() {
     }
 
-    public Course(String courseCode, String courseName, String description, String instructor, int duration, double fee, Level level, Date startDate, int studentCount, int maxStudents, boolean isFull) {
+    public Course(String courseCode, String courseName, String description, String instructor, int duration, double fee, Level level, LocalDate startDate, int studentCount, int maxStudents) {
         this.courseCode = courseCode;
         this.courseName = courseName;
         this.description = description;
@@ -29,7 +28,6 @@ public class Course {
         this.startDate = startDate;
         this.studentCount = studentCount;
         this.maxStudents = maxStudents;
-        this.isFull = isFull;
     }
 
     public String getCourseCode() {
@@ -88,11 +86,11 @@ public class Course {
         this.level = level;
     }
 
-    public Date getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
@@ -112,11 +110,13 @@ public class Course {
         this.maxStudents = maxStudents;
     }
 
+    // method này trả về có khóa học đã full chưa
     public boolean isFull() {
-        return isFull;
+        return this.studentCount >= this.maxStudents;
     }
 
-    public void setFull(boolean full) {
-        isFull = full;
+    // method kiểm tra có được xóa không
+    public boolean isDeletable() {
+        return this.studentCount == 0;
     }
 }
