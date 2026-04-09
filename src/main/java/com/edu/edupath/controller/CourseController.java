@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,7 +42,7 @@ public class CourseController {
         if(course.isEmpty()) {
             return "redirect:/course/list";
         }
-        model.addAttribute("course", course);
+        model.addAttribute("course", course.get());
         return "course/detail";
     }
 
@@ -54,35 +55,43 @@ public class CourseController {
             return "redirect:/course/list";
         }
 
-        model.addAttribute("course", course);
+        model.addAttribute("course", course.get());
         return "course/form";
     }
 
     // Cập nhật
     @PostMapping("/update")
     public String updateCourse(
-            @ModelAttribute Course course,
+            @RequestParam String code,
+            @RequestParam double fee,
+            @RequestParam String startDate,
             RedirectAttributes redirect) {
 
-        courseService.updateCourse(course);
+        LocalDate date = LocalDate.parse(startDate);
 
-        redirect.addFlashAttribute("message", "Cập nhật thành công");
+        String result = courseService.updateById(code, fee, date);
+
+        if (result.contains("thành công")) {
+            redirect.addFlashAttribute("message", result);
+        } else {
+            redirect.addFlashAttribute("error", result);
+        }
+
         return "redirect:/course/list";
     }
 
     // Xóa
-    @PostMapping("/delete/{id}")
+    @PostMapping("/delete/{code}")
     public String deleteCourse(
             @PathVariable String code,
             RedirectAttributes redirect) {
 
-
         String result = courseService.deleteById(code);
 
-        if (result.contains("Không thể")) {
-            redirect.addFlashAttribute("error", result);
-        } else {
+        if (result.contains("thành công")) {
             redirect.addFlashAttribute("message", result);
+        } else {
+            redirect.addFlashAttribute("error", result);
         }
 
         return "redirect:/course/list";

@@ -19,6 +19,7 @@ public class CourseRepository {
     // tạo dữ liệu mẫu
     public void init() {
         courses = new ArrayList<>();
+
         courses.add(new Course(
                 "IELTS-6.5",
                 "IELTS 6.5",
@@ -29,7 +30,8 @@ public class CourseRepository {
                 Level.INTERMEDIATE,
                 LocalDate.of(2026, 5, 1),
                 10,
-                20
+                20,
+                false
         ));
 
         courses.add(new Course(
@@ -42,7 +44,8 @@ public class CourseRepository {
                 Level.ADVANCED,
                 LocalDate.of(2026, 6, 1),
                 0,
-                25
+                25,
+                false
         ));
 
         courses.add(new Course(
@@ -55,7 +58,8 @@ public class CourseRepository {
                 Level.BEGINNER,
                 LocalDate.of(2026, 4, 20),
                 20,
-                20
+                20,
+                false
         ));
 
         courses.add(new Course(
@@ -68,7 +72,8 @@ public class CourseRepository {
                 Level.ADVANCED,
                 LocalDate.of(2026, 7, 10),
                 5,
-                15
+                15,
+                false
         ));
 
         courses.add(new Course(
@@ -81,7 +86,8 @@ public class CourseRepository {
                 Level.INTERMEDIATE,
                 LocalDate.of(2026, 5, 15),
                 0,
-                20
+                20,
+                false
         ));
     }
 
