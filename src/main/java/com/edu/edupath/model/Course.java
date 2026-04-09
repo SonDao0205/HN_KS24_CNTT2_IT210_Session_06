@@ -7,7 +7,7 @@ public class Course {
     private String courseName; // tên khóa học
     private String description; // mô tả cho khóa học
     private String instructor; // giảng viên
-    private String duration; // thời lượng
+    private String duration; // thời lượng ( ví dụ 12 tuần )
     private double fee; // học phí
     private Level level; // trình độ ( bên enum Level )
     private LocalDate startDate; // ngày khai giảng
