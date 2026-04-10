@@ -62,18 +62,10 @@ public class CourseServiceImpl implements CourseService{
 
         return Optional.empty();// không thì trả về rỗng
     }
-
-
-    @Override
-    public String deleteById(String id) {
-        // lấy tất cả
+    public String findByID (String id) {
         List<Course> allCourses = courseRepository.findAll();
-
         for (Course course : allCourses) {
-            // Kiểm tra xem có đúng mã khóa học cần xóa không
             if (course.getCourseCode().equals(id)) {
-
-                //  Nếu có học viên > 0 thì không được xóa
                 if (course.getStudentCount() > 0) {
                     return "Không thể xóa khi còn học viên";
                 }
@@ -89,6 +81,33 @@ public class CourseServiceImpl implements CourseService{
                }
             }
         }
+        return "Khong tim thay khoa hoc nao";
+    }
+
+    @Override
+    public String deleteById(String id) {
+        // lấy tất cả
+        List<Course> allCourses = courseRepository.findAll();
+
+//        for (Course course : allCourses) {
+//            // Kiểm tra xem có đúng mã khóa học cần xóa không
+//            if (course.getCourseCode().equals(id)) {
+//
+//                //  Nếu có học viên > 0 thì không được xóa
+//                if (course.getStudentCount() > 0) {
+//                    return "Không thể xóa khi còn học viên";
+//                }
+//
+//               if (!course.isDelete()){
+//                   // xóa mềm
+//                   course.setDelete(true);
+//
+//                   return "Xóa thành công";// bao thanh cong
+//               }else {
+//                   return "Khóa học này đã xóa";
+//               }
+//            }
+//        }
 
         return "Không tìm thấy khóa học nào với ID đó";
     }
